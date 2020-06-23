@@ -9,7 +9,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 
 class HomePage extends React.Component {
     state = {
-        orders: [{ product: "Samsung Galaxy S20", quantity: "1", orderTime: "1592857636946", shippingTime: "1593957636946" }],
+        orders: [{ product: "Samsung Galaxy S20", quantity: "1", orderTime: "1592857636946", shippingTime: "1592957636946" }],
     };
     render() {
         return (
@@ -31,8 +31,8 @@ class HomePage extends React.Component {
                                 <td>1</td>
                                 <td>Samsung Galaxy S20</td>
                                 <td>1</td>
-                                <td>{moment(parseInt(this.state.orders[0].orderTime))}</td>
-                                <td>{Date(parseInt(this.state.orders[0].shippingTime))}</td>
+                                <td>{moment(parseInt(this.state.orders[0].orderTime)).format("DD-MM-YY")}</td>
+                                <td>{moment(parseInt(this.state.orders[0].shippingTime)).format("DD-MM-YY")}</td>
                             </tr>
                         </tbody>
                     </Table>
