@@ -8,6 +8,25 @@ import Alert from "react-bootstrap/Alert";
 import ListGroup from "react-bootstrap/ListGroup";
 
 class HomePage extends React.Component {
+    state = {
+        customers: [
+            {
+                id: 1,
+                name: "Nguyễn Minh Trí",
+                email: "trinm312@gmail.com",
+                phone: "0932456789",
+                gender: "Nam",
+            },
+            {
+                id: 2,
+                name: "Nguyễn Minh Thư",
+                email: "thunm123@gmail.com",
+                phone: "0845123321",
+                gender: "Nữ",
+            },
+        ],
+    };
+
     render() {
         return (
             <Fragment>

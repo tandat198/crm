@@ -7,6 +7,16 @@ import Alert from "react-bootstrap/Alert";
 import ListGroup from "react-bootstrap/ListGroup";
 
 class ProductPage extends React.Component {
+    state = {
+        products: [
+            {
+                name: "Samsung Galaxy Note 9 Lite",
+                category: "Điện thoại",
+                remainingQuantity: 200,
+                price: 9990000,
+            },
+        ],
+    };
     render() {
         return (
             <Fragment>

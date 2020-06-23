@@ -6,7 +6,21 @@ import Table from "react-bootstrap/Table";
 import Alert from "react-bootstrap/Alert";
 import ListGroup from "react-bootstrap/ListGroup";
 
-class HomePage extends React.Component {
+class CategoryPage extends React.Component {
+    state = {
+        categories: [
+            {
+                id: 1,
+                name: "Điện thoại",
+            },
+            {
+                id: 2,
+                name: "Smartphone",
+                parentCategory: "Điện thoại",
+            },
+        ],
+    };
+
     render() {
         return (
             <Fragment>
@@ -81,4 +95,4 @@ class HomePage extends React.Component {
     }
 }
 
-export default HomePage;
+export default CategoryPage;
