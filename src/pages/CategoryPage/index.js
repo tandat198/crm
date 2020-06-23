@@ -1,5 +1,4 @@
 import React, { Fragment } from "react";
-import "./style.css";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -12,56 +11,45 @@ class HomePage extends React.Component {
         return (
             <Fragment>
                 <div className='container p-0 mt-3'>
-                    <Button variant='primary mr-2'>Thêm khách hàng</Button>
-                    <Button variant='danger'>Xóa khách hàng</Button>
+                    <Button variant='primary mr-2'>Thêm danh mục</Button>
+                    <Button variant='danger'>Xóa danh mục</Button>
                     <hr />
                     <Table className='table mt-1' striped bordered hover>
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Họ tên</th>
-                                <th>Email</th>
-                                <th>Số điện thoại</th>
-                                <th>Giới tính</th>
+                                <th>Tên danh mục</th>
+                                <th>Danh mục cha</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>1</td>
-                                <td>Đặng Ngọc Hà</td>
-                                <td>hadn@gmail.com</td>
-                                <td>0912345678</td>
-                                <td>Nữ</td>
+                                <td>Điện thoại</td>
+                                <td></td>
                             </tr>
                         </tbody>
                     </Table>
                 </div>
 
-                {/* Modal Create Customer*/}
+                {/* Modal Create */}
                 <Modal show={false} onHide>
                     <Modal.Header closeButton>
-                        <Modal.Title>Thêm khách hàng</Modal.Title>
+                        <Modal.Title>Thêm danh mục</Modal.Title>
                     </Modal.Header>
 
                     <Modal.Body>
                         <Alert variant='success'>Đã thêm thành công</Alert>
                         <Form.Group>
-                            <Form.Control className='mb-1' type='text' placeholder='Họ tên' />
-                            <span className='text-danger ml-3'>Vui lòng nhập họ tên</span>
+                            <Form.Control className='mb-1' type='text' placeholder='Tên danh mục' />
+                            <span className='text-danger ml-3'>Vui lòng nhập tên danh mục</span>
                         </Form.Group>
                         <Form.Group>
-                            <Form.Control as='select' placeholder='Giới tính'>
-                                <option>Giới tính</option>
-                                <option>Nam</option>
-                                <option>Nữ</option>
+                            <Form.Control as='select' placeholder='Danh mục cha'>
+                                <option>Danh mục cha</option>
+                                <option>Điện thoại</option>
+                                <option>Tablet</option>
                             </Form.Control>
-                            <span className='text-danger ml-3'>Vui lòng chọn giới tính</span>
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Control type='email' placeholder='Email' />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Control type='tel' placeholder='Số điện thoại' />
                         </Form.Group>
                     </Modal.Body>
 
@@ -71,15 +59,15 @@ class HomePage extends React.Component {
                     </Modal.Footer>
                 </Modal>
 
-                {/* Modal Delete Customer */}
+                {/* Modal Delete */}
                 <Modal show={false} onHide>
                     <Modal.Header closeButton>
-                        <Modal.Title>Danh sách khách hàng</Modal.Title>
+                        <Modal.Title>Danh sách danh mục</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <ListGroup>
                             <ListGroup.Item className='d-flex justify-content-between'>
-                                <span className='d-flex align-items-center'>Đặng Ngọc Hà</span>
+                                <span className='d-flex align-items-center'>Điện thoại</span>
                                 <Button variant='outline-danger'>Xóa</Button>
                             </ListGroup.Item>
                         </ListGroup>

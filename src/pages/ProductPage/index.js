@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 import Alert from "react-bootstrap/Alert";
+import ListGroup from "react-bootstrap/ListGroup";
 
 class ProductPage extends React.Component {
     render() {
@@ -35,6 +36,7 @@ class ProductPage extends React.Component {
                     </Table>
                 </div>
 
+                {/* Modal Create */}
                 <Modal show={false} onHide>
                     <Modal.Header closeButton>
                         <Modal.Title>Thêm sản phẩm</Modal.Title>
@@ -65,6 +67,24 @@ class ProductPage extends React.Component {
                     <Modal.Footer>
                         <Button variant='secondary'>Đóng</Button>
                         <Button variant='primary'>Tạo</Button>
+                    </Modal.Footer>
+                </Modal>
+
+                {/* Modal Delete */}
+                <Modal show={false} onHide>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Danh sách sản phẩm</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <ListGroup>
+                            <ListGroup.Item className='d-flex justify-content-between'>
+                                <span className='d-flex align-items-center'>Samsung Galaxy Note 9</span>
+                                <Button variant='outline-danger'>Xóa</Button>
+                            </ListGroup.Item>
+                        </ListGroup>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant='secondary'>Đóng</Button>
                     </Modal.Footer>
                 </Modal>
             </Fragment>
