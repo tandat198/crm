@@ -1,8 +1,8 @@
 import React, { Fragment } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import HomePage from "./pages/OrderPage";
 import Header from "./components/Header";
+import HomePage from "./pages/HomePage";
 
 class App extends React.Component {
     render() {

@@ -5,6 +5,8 @@ import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 import Alert from "react-bootstrap/Alert";
 import ListGroup from "react-bootstrap/ListGroup";
+import FormControl from "react-bootstrap/FormControl";
+import InputGroup from "react-bootstrap/InputGroup";
 
 class CategoryPage extends React.Component {
     state = {
@@ -25,8 +27,15 @@ class CategoryPage extends React.Component {
         return (
             <Fragment>
                 <div className='container p-0 mt-3'>
-                    <Button variant='primary mr-2'>Thêm danh mục</Button>
-                    <Button variant='danger'>Xóa danh mục</Button>
+                    <div className='d-flex justify-content-between'>
+                        <div>
+                            <Button variant='primary mr-2'>Thêm danh mục</Button>
+                            <Button variant='danger'>Xóa danh mục</Button>
+                        </div>
+                        <InputGroup className='w-25'>
+                            <FormControl placeholder='Tìm kiếm danh mục theo tên' />
+                        </InputGroup>
+                    </div>
                     <hr />
                     <Table className='table mt-1' striped bordered hover>
                         <thead>

@@ -1,6 +1,8 @@
 import React, { Fragment } from "react";
 import moment from "moment";
 import Table from "react-bootstrap/Table";
+import FormControl from "react-bootstrap/FormControl";
+import InputGroup from "react-bootstrap/InputGroup";
 
 class HomePage extends React.Component {
     state = {
@@ -10,6 +12,11 @@ class HomePage extends React.Component {
         return (
             <Fragment>
                 <div className='container p-0 mt-3'>
+                    <div className='d-flex justify-content-end'>
+                        <InputGroup className='w-25'>
+                            <FormControl placeholder='Tìm kiếm danh mục theo tên' />
+                        </InputGroup>
+                    </div>
                     <hr />
                     <Table className='table mt-1' striped bordered hover>
                         <thead>
