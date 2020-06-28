@@ -6,6 +6,8 @@ import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 import ListGroup from "react-bootstrap/ListGroup";
 import axios from "axios";
+import FormControl from "react-bootstrap/FormControl";
+import InputGroup from "react-bootstrap/InputGroup";
 
 class HomePage extends React.Component {
     state = {
@@ -118,12 +120,19 @@ class HomePage extends React.Component {
         return (
             <Fragment>
                 <div className='container p-0 mt-3'>
-                    <Button variant='primary mr-2' onClick={this.openFormCreate}>
-                        Thêm khách hàng
-                    </Button>
-                    <Button variant='danger' onClick={this.openCustomerList}>
-                        Xóa khách hàng
-                    </Button>
+                    <div className='d-flex justify-content-between'>
+                        <div>
+                            <Button variant='primary mr-2' onClick={this.openFormCreate}>
+                                Thêm khách hàng
+                            </Button>
+                            <Button variant='danger' onClick={this.openCustomerList}>
+                                Xóa khách hàng
+                            </Button>
+                        </div>
+                        <InputGroup className='w-25'>
+                            <FormControl placeholder='Tìm kiếm khách hàng theo tên' />
+                        </InputGroup>
+                    </div>
                     <hr />
                     {this.state.isLoading ? (
                         <div className='text-center'>Đang tải...</div>
