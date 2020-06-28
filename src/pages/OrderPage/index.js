@@ -4,7 +4,15 @@ import Table from "react-bootstrap/Table";
 
 class HomePage extends React.Component {
     state = {
-        orders: [{ id: 1, product: "Samsung Galaxy S20", quantity: "1", orderTime: "1592857636946", shippingTime: "1592957636946" }],
+        orders: [
+            {
+                id: 1,
+                product: "Samsung Galaxy S20",
+                quantity: "1",
+                orderTime: "1592857636946",
+                shippingTime: "1592957636946",
+            },
+        ],
     };
     render() {
         return (
@@ -22,13 +30,15 @@ class HomePage extends React.Component {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Samsung Galaxy S20</td>
-                                <td>1</td>
-                                <td>{moment(parseInt(this.state.orders[0].orderTime)).format("DD-MM-YY")}</td>
-                                <td>{moment(parseInt(this.state.orders[0].shippingTime)).format("DD-MM-YY")}</td>
-                            </tr>
+                            {this.state.orders.map((order) => (
+                                <tr key={order.id}>
+                                    <td>{order.id}</td>
+                                    <td>{order.product}</td>
+                                    <td>{order.quantity}</td>
+                                    <td>{moment(parseInt(order.orderTime)).format("DD-MM-YY")}</td>
+                                    <td>{moment(parseInt(order.shippingTime)).format("DD-MM-YY")}</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </Table>
                 </div>

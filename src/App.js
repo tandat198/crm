@@ -1,16 +1,25 @@
 import React, { Fragment } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import HomePage from "./pages/OrderPage";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import HomePage from "./pages/HomePage";
 import Header from "./components/Header";
+import ProductPage from "./pages/ProductPage";
+import CategoryPage from "./pages/CategoryPage";
+import OrderPage from "./pages/OrderPage";
 
 class App extends React.Component {
     render() {
         return (
-            <Fragment>
+            <BrowserRouter>
                 <Header />
-                <HomePage />
-            </Fragment>
+                <Switch>
+                    <Route exact path='/' component={HomePage} />
+                    <Route exact path='/products' component={ProductPage} />
+                    <Route exact path='/categories' component={CategoryPage} />
+                    <Route exact path='/orders' component={OrderPage} />
+                </Switch>
+            </BrowserRouter>
         );
     }
 }

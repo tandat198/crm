@@ -1,27 +1,28 @@
 import React from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
+import { Link } from "react-router-dom";
 
 const Header = () => {
     return (
         <Navbar bg='primary' variant='dark'>
             <div className='container'>
-                <a className='navbar-brand' href='#home'>
+                <Link className='navbar-brand' to='/'>
                     CRM
-                </a>
+                </Link>
                 <Nav className='mr-auto'>
-                    <a className='nav-link' href='#home'>
+                    <Link className='nav-link' to='/'>
                         Khách hàng
-                    </a>
-                    <a className='nav-link' href='#features'>
+                    </Link>
+                    <Link className='nav-link' to='/products'>
                         Sản phẩm
-                    </a>
-                    <a className='nav-link' href='#pricing'>
+                    </Link>
+                    <Link className='nav-link' to='/categories'>
                         Danh mục sản phẩm
-                    </a>
-                    <a className='nav-link' href='#pricing'>
+                    </Link>
+                    <Link className='nav-link' to='/orders'>
                         Đơn đặt hàng
-                    </a>
+                    </Link>
                 </Nav>
             </div>
         </Navbar>
