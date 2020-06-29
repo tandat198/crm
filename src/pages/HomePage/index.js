@@ -8,6 +8,8 @@ import ListGroup from "react-bootstrap/ListGroup";
 import axios from "axios";
 import FormControl from "react-bootstrap/FormControl";
 import InputGroup from "react-bootstrap/InputGroup";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import Dropdown from "react-bootstrap/Dropdown";
 
 class HomePage extends React.Component {
     state = {
@@ -65,17 +67,13 @@ class HomePage extends React.Component {
                 email: this.state.email,
                 phoneNumber: this.state.tele,
             };
-            // this.setState({customers: [...this.state.customers,newCustomer]})
+
             const res = await axios({
                 method: "POST",
                 url: "https://crm-dnt.herokuapp.com/api/customers",
                 data: newCustomer,
             });
-            // console.log(res.data);
             this.setState({ customers: this.state.customers.concat([res.data]), modelCreateOpening: false });
-            // console.log(this.state.customers);
-            // console.log(this.state.customers.concat([newCustomer]));
-            // this.setState({ customers: this.state.customers.concat([newCustomer]), modelCreateOpening: false });
         } else {
             this.setState({ errors });
         }
@@ -121,13 +119,17 @@ class HomePage extends React.Component {
             <Fragment>
                 <div className='container p-0 mt-3'>
                     <div className='d-flex justify-content-between'>
-                        <div>
-                            <Button variant='primary mr-2' onClick={this.openFormCreate}>
+                        <div className='d-flex'>
+                            <Button className='mr-2' variant='outline-primary' onClick={this.openFormCreate}>
                                 Thêm khách hàng
                             </Button>
-                            <Button variant='danger' onClick={this.openCustomerList}>
+                            <Button className='mr-2' variant='danger' onClick={this.openCustomerList}>
                                 Xóa khách hàng
                             </Button>
+                            <DropdownButton variant='secondary' title='Sắp xếp theo'>
+                                <Dropdown.Item>Tên A-Z</Dropdown.Item>
+                                <Dropdown.Item>Tên Z-A</Dropdown.Item>
+                            </DropdownButton>
                         </div>
                         <InputGroup className='w-25'>
                             <FormControl placeholder='Tìm kiếm khách hàng theo tên' />

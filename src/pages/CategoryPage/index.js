@@ -8,6 +8,8 @@ import axios from "axios";
 import FormControl from "react-bootstrap/FormControl";
 import InputGroup from "react-bootstrap/InputGroup";
 import Alert from "react-bootstrap/Alert";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import Dropdown from "react-bootstrap/Dropdown";
 
 class CategoryPage extends React.Component {
     state = {
@@ -83,13 +85,19 @@ class CategoryPage extends React.Component {
             <Fragment>
                 <div className='container p-0 mt-3'>
                     <div className='d-flex justify-content-between'>
-                        <div>
-                            <Button variant='primary mr-2' onClick={this.toggleCreateCategory}>
+                        <div className='d-flex'>
+                            <Button className='mr-2' variant='outline-primary' onClick={this.toggleCreateCategory}>
                                 Thêm danh mục
                             </Button>
-                            <Button variant='danger' onClick={this.toggleDeleteCategory}>
+                            <Button className='mr-2' variant='danger' onClick={this.toggleDeleteCategory}>
                                 Xóa danh mục
                             </Button>
+                            <DropdownButton variant='secondary' title='Sắp xếp theo'>
+                                <Dropdown.Item>Tên A-Z</Dropdown.Item>
+                                <Dropdown.Item>Tên Z-A</Dropdown.Item>
+                                <Dropdown.Item>Tên danh mục cha A-Z</Dropdown.Item>
+                                <Dropdown.Item>Tên danh mục cha Z-A</Dropdown.Item>
+                            </DropdownButton>
                         </div>
                         <InputGroup className='w-25'>
                             <FormControl placeholder='Tìm kiếm danh mục theo tên' />

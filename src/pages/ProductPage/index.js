@@ -7,6 +7,8 @@ import Alert from "react-bootstrap/Alert";
 import ListGroup from "react-bootstrap/ListGroup";
 import FormControl from "react-bootstrap/FormControl";
 import InputGroup from "react-bootstrap/InputGroup";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import Dropdown from "react-bootstrap/Dropdown";
 
 class ProductPage extends React.Component {
     state = {
@@ -17,15 +19,7 @@ class ProductPage extends React.Component {
         number: "",
         price: "",
         errors: {},
-        products: [
-            {
-                id: 1,
-                name: "Samsung Galaxy Note 9 Lite",
-                category: "Điện thoại",
-                remainingQuantity: 200,
-                price: 9990000,
-            },
-        ],
+        products: [],
     };
     toggleModelCreate = () => {
         this.setState({ modalCreateProductOpening: !this.state.modalCreateProductOpening });
@@ -69,18 +63,29 @@ class ProductPage extends React.Component {
     deleteProduct = (id) => {
         this.setState({ products: this.state.products.filter((product) => product.id !== id) });
     };
+
     render() {
         return (
             <Fragment>
                 <div className='container p-0 mt-3'>
                     <div className='d-flex justify-content-between'>
-                        <div>
-                            <Button variant='primary mr-2' onClick={this.toggleModelCreate}>
+                        <div className='d-flex'>
+                            <Button className='mr-2' variant='outline-primary' onClick={this.toggleModelCreate}>
                                 Thêm sản phẩm
                             </Button>
-                            <Button variant='danger' onClick={this.toggleModalDelete}>
+                            <Button className='mr-2' variant='danger' onClick={this.toggleModalDelete}>
                                 Xóa sản phẩm
                             </Button>
+                            <DropdownButton variant='secondary' title='Sắp xếp theo'>
+                                <Dropdown.Item>Giá tăng dần</Dropdown.Item>
+                                <Dropdown.Item>Giá giảm dần</Dropdown.Item>
+                                <Dropdown.Item>Số lượng tồn kho tăng dần</Dropdown.Item>
+                                <Dropdown.Item>Số lượng tồn kho giảm dần</Dropdown.Item>
+                                <Dropdown.Item>Tên A-Z</Dropdown.Item>
+                                <Dropdown.Item>Tên Z-A</Dropdown.Item>
+                                <Dropdown.Item>Danh mục A-Z</Dropdown.Item>
+                                <Dropdown.Item>Danh mục Z-A</Dropdown.Item>
+                            </DropdownButton>
                         </div>
                         <InputGroup className='w-25'>
                             <FormControl placeholder='Tìm kiếm sản phẩm theo tên' />
