@@ -119,31 +119,21 @@ class ProductPage extends React.Component {
 
                     <Modal.Body>
                         <Form.Group>
-                            <Form.Control
-                                className='mb-1'
-                                type='text'
-                                placeholder='Tên sản phẩm'
-                                onChange={this.handleProductName}
-                            />
-                            {this.state.errors.name ? (
-                                <span className='text-danger ml-3'>Vui lòng nhập tên sản phẩm</span>
-                            ) : null}
+                            <Form.Control className='mb-1' type='text' placeholder='Tên sản phẩm' onChange={this.handleProductName} />
+                            {this.state.errors.name ? <span className='text-danger ml-3'>Vui lòng nhập tên sản phẩm</span> : null}
                         </Form.Group>
                         <Form.Group>
                             <Form.Control as='select' placeholder='Danh mục' onChange={this.handleCategory}>
                                 <option>Danh mục</option>
-                                <option>Điện thoại</option>
-                                <option>Tablet</option>
                             </Form.Control>
-                            {this.state.errors.category ? (
-                                <span className='text-danger ml-3'>Vui lòng chọn danh mục</span>
-                            ) : null}
+                            {this.state.errors.category ? <span className='text-danger ml-3'>Vui lòng chọn danh mục</span> : null}
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Control type='number' placeholder='Giá sản phẩm' onChange={this.handlePrice} />
+                            <span className='text-danger ml-3'>Vui lòng nhập giá sản phẩm</span>
                         </Form.Group>
                         <Form.Group>
                             <Form.Control type='number' placeholder='Số lượng tồn kho' onChange={this.handleNumber} />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Control type='number' placeholder='Giá' onChange={this.handlePrice} />
                         </Form.Group>
                     </Modal.Body>
 
@@ -154,6 +144,37 @@ class ProductPage extends React.Component {
                         <Button variant='primary' onClick={this.createProduct}>
                             Tạo
                         </Button>
+                    </Modal.Footer>
+                </Modal>
+
+                {/* Modal Update */}
+                <Modal>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Cập nhật sản phẩm</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Alert variant='success'>Đã cập nhật thành công</Alert>
+                        <Form.Group>
+                            <Form.Control className='mb-1' type='text' placeholder='Tên sản phẩm' />
+                            <span className='text-danger ml-3'>Vui lòng nhập tên sản phẩm</span>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Control as='select' placeholder='Danh mục' onChange={this.handleCategory}>
+                                <option>Danh mục</option>
+                            </Form.Control>
+                            <span className='text-danger ml-3'>Vui lòng chọn danh mục</span>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Control type='number' placeholder='Giá sản phẩm' onChange={this.handlePrice} />
+                            <span className='text-danger ml-3'>Vui lòng nhập giá sảm phẩm</span>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Control type='number' placeholder='Số lượng tồn kho' onChange={this.handleNumber} />
+                        </Form.Group>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant='secondary'>Đóng</Button>
+                        <Button variant='primary'>Cập nhật</Button>
                     </Modal.Footer>
                 </Modal>
 

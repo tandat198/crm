@@ -3,11 +3,11 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
-import Alert from "react-bootstrap/Alert";
 import ListGroup from "react-bootstrap/ListGroup";
 import axios from "axios";
 import FormControl from "react-bootstrap/FormControl";
 import InputGroup from "react-bootstrap/InputGroup";
+import Alert from "react-bootstrap/Alert";
 
 class CategoryPage extends React.Component {
     state = {
@@ -27,7 +27,9 @@ class CategoryPage extends React.Component {
             method: "DELETE",
             url: `https://crm-dnt.herokuapp.com/api/categories/${id}`,
         });
-        this.setState({ categories: this.state.categories.filter((category) => category.id !== id) });
+        if (res.data.message.includes("successfully")) {
+            this.setState({ categories: this.state.categories.filter((category) => category.id !== id) });
+        }
     };
     toggleCreateCategory = () => {
         this.setState({ modalCreateCategoryOpening: !this.state.modalCreateCategoryOpening });
@@ -120,15 +122,8 @@ class CategoryPage extends React.Component {
 
                     <Modal.Body>
                         <Form.Group>
-                            <Form.Control
-                                className='mb-1'
-                                type='text'
-                                placeholder='Tên danh mục'
-                                onChange={this.handleCategoryName}
-                            />
-                            {this.state.errors.categoryName ? (
-                                <span className='text-danger ml-3'>Vui lòng nhập tên danh mục</span>
-                            ) : null}
+                            <Form.Control className='mb-1' type='text' placeholder='Tên danh mục' onChange={this.handleCategoryName} />
+                            {this.state.errors.categoryName ? <span className='text-danger ml-3'>Vui lòng nhập tên danh mục</span> : null}
                         </Form.Group>
                         <Form.Group>
                             <Form.Control as='select' placeholder='Danh mục cha' onChange={this.handleParentCategory}>
@@ -149,6 +144,31 @@ class CategoryPage extends React.Component {
                         <Button variant='primary' onClick={this.addCategory}>
                             Tạo
                         </Button>
+                    </Modal.Footer>
+                </Modal>
+
+                {/* Modal Update */}
+                <Modal>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Cập nhật danh mục</Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body>
+                        <Alert variant='success'>Đã cập nhật thành công</Alert>
+                        <Form.Group>
+                            <Form.Control className='mb-1' type='text' placeholder='Tên danh mục' onChange={this.handleCategoryName} />
+                            {this.state.errors.categoryName ? <span className='text-danger ml-3'>Vui lòng nhập tên danh mục</span> : null}
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Control as='select' placeholder='Danh mục cha' onChange={this.handleParentCategory}>
+                                <option>Danh mục cha</option>
+                            </Form.Control>
+                        </Form.Group>
+                    </Modal.Body>
+
+                    <Modal.Footer>
+                        <Button variant='secondary'>Đóng</Button>
+                        <Button variant='primary'>Cập nhật</Button>
                     </Modal.Footer>
                 </Modal>
 

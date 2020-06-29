@@ -6,15 +6,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 
 class HomePage extends React.Component {
     state = {
-        orders: [
-            {
-                id: 1,
-                product: "Samsung Galaxy S20",
-                quantity: "1",
-                orderTime: "1592857636946",
-                shippingTime: "1592957636946",
-            },
-        ],
+        orders: [],
     };
     render() {
         return (

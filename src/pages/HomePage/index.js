@@ -170,15 +170,8 @@ class HomePage extends React.Component {
 
                     <Modal.Body>
                         <Form.Group>
-                            <Form.Control
-                                className='mb-1'
-                                type='text'
-                                placeholder='Họ tên'
-                                onChange={this.handleName}
-                            />
-                            {this.state.errors.name.length > 0 && (
-                                <span className='text-danger ml-3'>Vui lòng nhập họ tên</span>
-                            )}
+                            <Form.Control className='mb-1' type='text' placeholder='Họ tên' onChange={this.handleName} />
+                            {this.state.errors.name.length > 0 && <span className='text-danger ml-3'>Vui lòng nhập họ tên</span>}
                         </Form.Group>
                         <Form.Group>
                             <Form.Control as='select' placeholder='Giới tính' onChange={this.handleGender}>
@@ -186,9 +179,7 @@ class HomePage extends React.Component {
                                 <option>Nam</option>
                                 <option>Nữ</option>
                             </Form.Control>
-                            {this.state.errors.gender.length > 0 && (
-                                <span className='text-danger ml-3'>Vui lòng chọn giới tính</span>
-                            )}
+                            {this.state.errors.gender.length > 0 && <span className='text-danger ml-3'>Vui lòng chọn giới tính</span>}
                         </Form.Group>
                         <Form.Group>
                             <Form.Control type='email' placeholder='Email' onChange={this.handleEmail} />
@@ -205,6 +196,41 @@ class HomePage extends React.Component {
                         <Button variant='primary' onClick={this.createCustomer}>
                             Tạo
                         </Button>
+                    </Modal.Footer>
+                </Modal>
+
+                {/* Modal Update Customer*/}
+                <Modal>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Thêm khách hàng</Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body>
+                        <Form.Group>
+                            <Form.Control className='mb-1' type='text' placeholder='Họ tên' />
+
+                            <span className='text-danger ml-3'>Vui lòng nhập họ tên</span>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Control as='select' placeholder='Giới tính' onChange={this.handleGender}>
+                                <option>Giới tính</option>
+                                <option>Nam</option>
+                                <option>Nữ</option>
+                            </Form.Control>
+
+                            <span className='text-danger ml-3'>Vui lòng chọn giới tính</span>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Control type='email' placeholder='Email' onChange={this.handleEmail} />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Control type='tel' placeholder='Số điện thoại' onChange={this.HandleTele} />
+                        </Form.Group>
+                    </Modal.Body>
+
+                    <Modal.Footer>
+                        <Button variant='secondary'>Đóng</Button>
+                        <Button variant='primary'>Cập nhật</Button>
                     </Modal.Footer>
                 </Modal>
 
