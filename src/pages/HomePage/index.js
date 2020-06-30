@@ -15,6 +15,7 @@ class HomePage extends React.Component {
         gender: "Giới tính",
         email: "",
         tele: "",
+        search: "",
         modelCreateOpening: false,
         modalCustomerListOpening: false,
         isLoading: false,
@@ -23,6 +24,9 @@ class HomePage extends React.Component {
             gender: "",
         },
         customers: [],
+    };
+    handleSearch = (e) => {
+        this.setState({ search: e.target.value });
     };
 
     handleName = (e) => {
@@ -73,7 +77,6 @@ class HomePage extends React.Component {
             });
             // console.log(res.data);
             this.setState({ customers: this.state.customers.concat([res.data]), modelCreateOpening: false });
-            // console.log(this.state.customers);
             // console.log(this.state.customers.concat([newCustomer]));
             // this.setState({ customers: this.state.customers.concat([newCustomer]), modelCreateOpening: false });
         } else {
@@ -130,7 +133,7 @@ class HomePage extends React.Component {
                             </Button>
                         </div>
                         <InputGroup className='w-25'>
-                            <FormControl placeholder='Tìm kiếm khách hàng theo tên' />
+                            <FormControl placeholder='Tìm kiếm khách hàng theo tên' onChange={this.handleSearch} />
                         </InputGroup>
                     </div>
                     <hr />
@@ -148,15 +151,17 @@ class HomePage extends React.Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {this.state.customers.map((customer, index) => (
-                                    <tr key={customer.id}>
-                                        <td>{index + 1} </td>
-                                        <td>{customer.name}</td>
-                                        <td>{customer.email}</td>
-                                        <td>{customer.phoneNumber}</td>
-                                        <td>{customer.gender}</td>
-                                    </tr>
-                                ))}
+                                {this.state.customers
+                                    .filter((customer) => customer.name.includes(this.state.search))
+                                    .map((customer, index) => (
+                                        <tr key={customer.id}>
+                                            <td>{index + 1} </td>
+                                            <td>{customer.name}</td>
+                                            <td>{customer.email}</td>
+                                            <td>{customer.phoneNumber}</td>
+                                            <td>{customer.gender}</td>
+                                        </tr>
+                                    ))}
                             </tbody>
                         </Table>
                     )}

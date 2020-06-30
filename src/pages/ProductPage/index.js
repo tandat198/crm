@@ -7,6 +7,7 @@ import Alert from "react-bootstrap/Alert";
 import ListGroup from "react-bootstrap/ListGroup";
 import FormControl from "react-bootstrap/FormControl";
 import InputGroup from "react-bootstrap/InputGroup";
+import axios from "axios";
 
 class ProductPage extends React.Component {
     state = {
@@ -14,24 +15,23 @@ class ProductPage extends React.Component {
         modalDeleteProductOpening: false,
         productName: "",
         category: "Danh mục",
+        isLoading: false,
         number: "",
         price: "",
         errors: {},
-        products: [
-            {
-                id: 1,
-                name: "Samsung Galaxy Note 9 Lite",
-                category: "Điện thoại",
-                remainingQuantity: 200,
-                price: 9990000,
-            },
-        ],
+        search: "",
+        products: [],
+        categories: [],
     };
     toggleModelCreate = () => {
         this.setState({ modalCreateProductOpening: !this.state.modalCreateProductOpening });
     };
     toggleModalDelete = () => {
         this.setState({ modalDeleteProductOpening: !this.state.modalDeleteProductOpening });
+    };
+
+    handleSearch = (e) => {
+        this.setState({ search: e.target.value });
     };
 
     handleProductName = (e) => {
@@ -46,7 +46,7 @@ class ProductPage extends React.Component {
     handlePrice = (e) => {
         this.setState({ price: e.target.value });
     };
-    createProduct = () => {
+    createProduct = async () => {
         const errors = {};
         if (this.state.productName.length === 0) {
             errors.productName = "product name is required";
@@ -59,16 +59,53 @@ class ProductPage extends React.Component {
             const newProduct = {
                 name: this.state.productName,
                 category: this.state.category,
-                remainingQuantity: this.state.number,
-                price: this.state.price,
+                remainingQuantity: parseInt(this.state.number),
+                price: parseInt(this.state.price),
             };
-            this.setState({ products: this.state.products.concat([newProduct]), modalCreateProductOpening: false });
+            const res = await axios({
+                method: "POST",
+                url: `https://crm-dnt.herokuapp.com/api/products`,
+                data: newProduct,
+            });
+            this.setState({ products: this.state.products.concat([res.data]), modalCreateProductOpening: false });
         }
     };
-
-    deleteProduct = (id) => {
-        this.setState({ products: this.state.products.filter((product) => product.id !== id) });
+    getProduct = async () => {
+        this.setState({ isLoading: true });
+        const res = await axios({
+            method: "GET",
+            url: `https://crm-dnt.herokuapp.com/api/products`,
+        });
+        this.setState({ isLoading: false });
+        this.setState({ products: res.data });
     };
+    getCategory = async () => {
+        const res = await axios({
+            method: "GET",
+            url: `https://crm-dnt.herokuapp.com/api/categories`,
+        });
+        this.setState({ categories: res.data });
+    };
+
+    deleteProduct = async (id) => {
+        const res = await axios({
+            method: "DELETE",
+            url: `https://crm-dnt.herokuapp.com/api/products/${id}`,
+        });
+        if (res.data.message.includes("successfully")) {
+            this.setState({ products: this.state.products.filter((product) => product.id !== id) });
+        } else {
+            this.setState({
+                errors: {
+                    deleteIsError: true,
+                },
+            });
+        }
+    };
+    componentDidMount() {
+        this.getProduct();
+        this.getCategory();
+    }
     render() {
         return (
             <Fragment>
@@ -83,32 +120,36 @@ class ProductPage extends React.Component {
                             </Button>
                         </div>
                         <InputGroup className='w-25'>
-                            <FormControl placeholder='Tìm kiếm sản phẩm theo tên' />
+                            <FormControl placeholder='Tìm kiếm sản phẩm theo tên' onChange={this.handleSearch} />
                         </InputGroup>
                     </div>
                     <hr />
-                    <Table className='table mt-1' striped bordered hover>
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Tên sản phẩm</th>
-                                <th>Danh mục</th>
-                                <th>Số lượng tồn kho</th>
-                                <th>Giá</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.state.products.map((product, index) => (
+                    {this.state.isLoading ? (
+                        <div className='text-center'>Đang tải...</div>
+                    ) : (
+                        <Table className='table mt-1' striped bordered hover>
+                            <thead>
                                 <tr>
-                                    <td>{index + 1}</td>
-                                    <td>{product.name}</td>
-                                    <td>{product.category}</td>
-                                    <td>{product.remainingQuantity}</td>
-                                    <td>{product.price}</td>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Danh mục</th>
+                                    <th>Số lượng tồn kho</th>
+                                    <th>Giá</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </Table>
+                            </thead>
+                            <tbody>
+                                {this.state.products
+                                    .filter((product) => product.name.includes(this.state.search))
+                                    .map((product) => (
+                                        <tr key={product.id}>
+                                            <td>{product.name}</td>
+                                            <td>{product.category?.name}</td>
+                                            <td>{product.remainingQuantity}</td>
+                                            <td>{product.price.toLocaleString()}</td>
+                                        </tr>
+                                    ))}
+                            </tbody>
+                        </Table>
+                    )}
                 </div>
 
                 {/* Modal Create */}
@@ -132,8 +173,11 @@ class ProductPage extends React.Component {
                         <Form.Group>
                             <Form.Control as='select' placeholder='Danh mục' onChange={this.handleCategory}>
                                 <option>Danh mục</option>
-                                <option>Điện thoại</option>
-                                <option>Tablet</option>
+                                {this.state.categories.map((category) => (
+                                    <option value={category.id} key={category.id}>
+                                        {category.name}
+                                    </option>
+                                ))}
                             </Form.Control>
                             {this.state.errors.category ? (
                                 <span className='text-danger ml-3'>Vui lòng chọn danh mục</span>
@@ -163,6 +207,7 @@ class ProductPage extends React.Component {
                         <Modal.Title>Danh sách sản phẩm</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
+                        {this.state.errors.deleteIsError ? <Alert variant='danger'>xóa thất bại</Alert> : null}
                         <ListGroup>
                             {this.state.products.map((product) => (
                                 <ListGroup.Item className='d-flex justify-content-between' key={product.id}>

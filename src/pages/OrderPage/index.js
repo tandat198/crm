@@ -3,6 +3,7 @@ import moment from "moment";
 import Table from "react-bootstrap/Table";
 import FormControl from "react-bootstrap/FormControl";
 import InputGroup from "react-bootstrap/InputGroup";
+import Button from "react-bootstrap/Button";
 
 class HomePage extends React.Component {
     state = {
@@ -29,21 +30,23 @@ class HomePage extends React.Component {
                     <Table className='table mt-1' striped bordered hover>
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Tên sản phẩm</th>
-                                <th>Số lượng</th>
+                                <th>Số sản phẩm</th>
                                 <th>Thời gian đặt hàng</th>
                                 <th>Thời gian giao hàng dự kiến</th>
+                                <th>Tổng giá</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             {this.state.orders.map((order) => (
                                 <tr key={order.id}>
-                                    <td>{order.id}</td>
-                                    <td>{order.product}</td>
-                                    <td>{order.quantity}</td>
+                                    <td></td>
                                     <td>{moment(parseInt(order.orderTime)).format("DD-MM-YY")}</td>
                                     <td>{moment(parseInt(order.shippingTime)).format("DD-MM-YY")}</td>
+                                    <td></td>
+                                    <th>
+                                        <Button variant='primary'>Xem chi tiết</Button>
+                                    </th>
                                 </tr>
                             ))}
                         </tbody>
