@@ -3,11 +3,13 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
-import Alert from "react-bootstrap/Alert";
 import ListGroup from "react-bootstrap/ListGroup";
 import axios from "axios";
 import FormControl from "react-bootstrap/FormControl";
 import InputGroup from "react-bootstrap/InputGroup";
+import Alert from "react-bootstrap/Alert";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import Dropdown from "react-bootstrap/Dropdown";
 
 class CategoryPage extends React.Component {
     state = {
@@ -28,7 +30,9 @@ class CategoryPage extends React.Component {
             method: "DELETE",
             url: `https://crm-dnt.herokuapp.com/api/categories/${id}`,
         });
-        this.setState({ categories: this.state.categories.filter((category) => category.id !== id) });
+        if (res.data.message.includes("successfully")) {
+            this.setState({ categories: this.state.categories.filter((category) => category.id !== id) });
+        }
     };
     toggleCreateCategory = () => {
         this.setState({ modalCreateCategoryOpening: !this.state.modalCreateCategoryOpening });
@@ -84,13 +88,19 @@ class CategoryPage extends React.Component {
             <Fragment>
                 <div className='container p-0 mt-3'>
                     <div className='d-flex justify-content-between'>
-                        <div>
-                            <Button variant='primary mr-2' onClick={this.toggleCreateCategory}>
+                        <div className='d-flex'>
+                            <Button className='mr-2' variant='outline-primary' onClick={this.toggleCreateCategory}>
                                 Thêm danh mục
                             </Button>
-                            <Button variant='danger' onClick={this.toggleDeleteCategory}>
+                            <Button className='mr-2' variant='danger' onClick={this.toggleDeleteCategory}>
                                 Xóa danh mục
                             </Button>
+                            <DropdownButton variant='secondary' title='Sắp xếp theo'>
+                                <Dropdown.Item>Tên A-Z</Dropdown.Item>
+                                <Dropdown.Item>Tên Z-A</Dropdown.Item>
+                                <Dropdown.Item>Tên danh mục cha A-Z</Dropdown.Item>
+                                <Dropdown.Item>Tên danh mục cha Z-A</Dropdown.Item>
+                            </DropdownButton>
                         </div>
                         <InputGroup className='w-25'>
                             <FormControl placeholder='Tìm kiếm danh mục theo tên' />
@@ -127,15 +137,8 @@ class CategoryPage extends React.Component {
 
                     <Modal.Body>
                         <Form.Group>
-                            <Form.Control
-                                className='mb-1'
-                                type='text'
-                                placeholder='Tên danh mục'
-                                onChange={this.handleCategoryName}
-                            />
-                            {this.state.errors.categoryName ? (
-                                <span className='text-danger ml-3'>Vui lòng nhập tên danh mục</span>
-                            ) : null}
+                            <Form.Control className='mb-1' type='text' placeholder='Tên danh mục' onChange={this.handleCategoryName} />
+                            {this.state.errors.categoryName ? <span className='text-danger ml-3'>Vui lòng nhập tên danh mục</span> : null}
                         </Form.Group>
                         <Form.Group>
                             <Form.Control as='select' placeholder='Danh mục cha' onChange={this.handleParentCategory}>
@@ -156,6 +159,31 @@ class CategoryPage extends React.Component {
                         <Button variant='primary' onClick={this.addCategory}>
                             Tạo
                         </Button>
+                    </Modal.Footer>
+                </Modal>
+
+                {/* Modal Update */}
+                <Modal>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Cập nhật danh mục</Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body>
+                        <Alert variant='success'>Đã cập nhật thành công</Alert>
+                        <Form.Group>
+                            <Form.Control className='mb-1' type='text' placeholder='Tên danh mục' onChange={this.handleCategoryName} />
+                            {this.state.errors.categoryName ? <span className='text-danger ml-3'>Vui lòng nhập tên danh mục</span> : null}
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Control as='select' placeholder='Danh mục cha' onChange={this.handleParentCategory}>
+                                <option>Danh mục cha</option>
+                            </Form.Control>
+                        </Form.Group>
+                    </Modal.Body>
+
+                    <Modal.Footer>
+                        <Button variant='secondary'>Đóng</Button>
+                        <Button variant='primary'>Cập nhật</Button>
                     </Modal.Footer>
                 </Modal>
 

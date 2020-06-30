@@ -8,6 +8,8 @@ import ListGroup from "react-bootstrap/ListGroup";
 import FormControl from "react-bootstrap/FormControl";
 import InputGroup from "react-bootstrap/InputGroup";
 import axios from "axios";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import Dropdown from "react-bootstrap/Dropdown";
 
 class ProductPage extends React.Component {
     state = {
@@ -111,13 +113,23 @@ class ProductPage extends React.Component {
             <Fragment>
                 <div className='container p-0 mt-3'>
                     <div className='d-flex justify-content-between'>
-                        <div>
-                            <Button variant='primary mr-2' onClick={this.toggleModelCreate}>
+                        <div className='d-flex'>
+                            <Button className='mr-2' variant='outline-primary' onClick={this.toggleModelCreate}>
                                 Thêm sản phẩm
                             </Button>
-                            <Button variant='danger' onClick={this.toggleModalDelete}>
+                            <Button className='mr-2' variant='danger' onClick={this.toggleModalDelete}>
                                 Xóa sản phẩm
                             </Button>
+                            <DropdownButton variant='secondary' title='Sắp xếp theo'>
+                                <Dropdown.Item>Giá tăng dần</Dropdown.Item>
+                                <Dropdown.Item>Giá giảm dần</Dropdown.Item>
+                                <Dropdown.Item>Số lượng tồn kho tăng dần</Dropdown.Item>
+                                <Dropdown.Item>Số lượng tồn kho giảm dần</Dropdown.Item>
+                                <Dropdown.Item>Tên A-Z</Dropdown.Item>
+                                <Dropdown.Item>Tên Z-A</Dropdown.Item>
+                                <Dropdown.Item>Danh mục A-Z</Dropdown.Item>
+                                <Dropdown.Item>Danh mục Z-A</Dropdown.Item>
+                            </DropdownButton>
                         </div>
                         <InputGroup className='w-25'>
                             <FormControl placeholder='Tìm kiếm sản phẩm theo tên' onChange={this.handleSearch} />
@@ -184,10 +196,11 @@ class ProductPage extends React.Component {
                             ) : null}
                         </Form.Group>
                         <Form.Group>
-                            <Form.Control type='number' placeholder='Số lượng tồn kho' onChange={this.handleNumber} />
+                            <Form.Control type='number' placeholder='Giá sản phẩm' onChange={this.handlePrice} />
+                            <span className='text-danger ml-3'>Vui lòng nhập giá sản phẩm</span>
                         </Form.Group>
                         <Form.Group>
-                            <Form.Control type='number' placeholder='Giá' onChange={this.handlePrice} />
+                            <Form.Control type='number' placeholder='Số lượng tồn kho' onChange={this.handleNumber} />
                         </Form.Group>
                     </Modal.Body>
 
@@ -198,6 +211,37 @@ class ProductPage extends React.Component {
                         <Button variant='primary' onClick={this.createProduct}>
                             Tạo
                         </Button>
+                    </Modal.Footer>
+                </Modal>
+
+                {/* Modal Update */}
+                <Modal>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Cập nhật sản phẩm</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Alert variant='success'>Đã cập nhật thành công</Alert>
+                        <Form.Group>
+                            <Form.Control className='mb-1' type='text' placeholder='Tên sản phẩm' />
+                            <span className='text-danger ml-3'>Vui lòng nhập tên sản phẩm</span>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Control as='select' placeholder='Danh mục' onChange={this.handleCategory}>
+                                <option>Danh mục</option>
+                            </Form.Control>
+                            <span className='text-danger ml-3'>Vui lòng chọn danh mục</span>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Control type='number' placeholder='Giá sản phẩm' onChange={this.handlePrice} />
+                            <span className='text-danger ml-3'>Vui lòng nhập giá sảm phẩm</span>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Control type='number' placeholder='Số lượng tồn kho' onChange={this.handleNumber} />
+                        </Form.Group>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant='secondary'>Đóng</Button>
+                        <Button variant='primary'>Cập nhật</Button>
                     </Modal.Footer>
                 </Modal>
 
