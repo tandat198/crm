@@ -251,6 +251,24 @@ class ProductPage extends React.Component {
                         <Form.Group>
                             <Form.Control type='number' placeholder='Số lượng tồn kho' onChange={this.handleNumber} />
                         </Form.Group>
+                        <Form.Group>
+                            <Form.Control type='text' placeholder='URL hình thumbnail' />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Control type='text' placeholder='URL hình full' />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Control type='number' placeholder='RAM' />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Control type='number' placeholder='Bộ nhớ' />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Control type='number' placeholder='Kích thước màn hình' />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Control type='text' placeholder='Hệ điều hành' />
+                        </Form.Group>
                     </Modal.Body>
 
                     <Modal.Footer>
@@ -266,11 +284,12 @@ class ProductPage extends React.Component {
                     </Modal.Footer>
                 </Modal>
 
-                {/* Modal Update */}
+                {/* Modal Update Product */}
                 <Modal>
                     <Modal.Header closeButton>
                         <Modal.Title>Cập nhật sản phẩm</Modal.Title>
                     </Modal.Header>
+
                     <Modal.Body>
                         <Alert variant='success'>Đã cập nhật thành công</Alert>
                         <Form.Group>
@@ -278,19 +297,38 @@ class ProductPage extends React.Component {
                             <span className='text-danger ml-3'>Vui lòng nhập tên sản phẩm</span>
                         </Form.Group>
                         <Form.Group>
-                            <Form.Control as='select' placeholder='Danh mục' onChange={this.handleCategory}>
+                            <Form.Control as='select' placeholder='Danh mục'>
                                 <option>Danh mục</option>
                             </Form.Control>
                             <span className='text-danger ml-3'>Vui lòng chọn danh mục</span>
                         </Form.Group>
                         <Form.Group>
-                            <Form.Control type='number' placeholder='Giá sản phẩm' onChange={this.handlePrice} />
+                            <Form.Control type='number' placeholder='Giá sản phẩm' />
                             <span className='text-danger ml-3'>Vui lòng nhập giá sảm phẩm</span>
                         </Form.Group>
                         <Form.Group>
-                            <Form.Control type='number' placeholder='Số lượng tồn kho' onChange={this.handleNumber} />
+                            <Form.Control type='number' placeholder='Số lượng tồn kho' />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Control type='text' placeholder='URL hình thumbnail' />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Control type='text' placeholder='URL hình full' />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Control type='number' placeholder='RAM' />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Control type='number' placeholder='Bộ nhớ' />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Control type='number' placeholder='Kích thước màn hình' />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Control type='text' placeholder='Hệ điều hành' />
                         </Form.Group>
                     </Modal.Body>
+
                     <Modal.Footer>
                         <Button variant='secondary'>Đóng</Button>
                         <Button variant='primary'>Cập nhật</Button>
