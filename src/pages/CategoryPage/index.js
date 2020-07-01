@@ -16,6 +16,7 @@ class CategoryPage extends React.Component {
         modalDeleteCategoryOpening: false,
         modalCreateCategoryOpening: false,
         categoryName: "",
+        isLoading: false,
         parentCategory: "Danh mục cha",
         errors: {},
         categories: [],
@@ -70,11 +71,13 @@ class CategoryPage extends React.Component {
         }
     };
     getCategories = async () => {
+        this.setState({ isLoading: true });
         const res = await axios({
             method: "GET",
             url: "https://crm-dnt.herokuapp.com/api/categories",
         });
         console.log(res.data);
+        this.setState({ isLoading: false });
         this.setState({ categories: res.data });
     };
     componentDidMount() {
@@ -104,22 +107,26 @@ class CategoryPage extends React.Component {
                         </InputGroup>
                     </div>
                     <hr />
-                    <Table className='table mt-1' striped bordered hover>
-                        <thead>
-                            <tr>
-                                <th>Tên danh mục</th>
-                                <th>Danh mục cha</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.state.categories.map((category) => (
-                                <tr key={category.id}>
-                                    <td>{category.name}</td>
-                                    <td>{category?.parentCategory?.name}</td>
+                    {this.state.isLoading ? (
+                        <div className='text-center'>Đang tải...</div>
+                    ) : (
+                        <Table className='table mt-1' striped bordered hover>
+                            <thead>
+                                <tr>
+                                    <th>Tên danh mục</th>
+                                    <th>Danh mục cha</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </Table>
+                            </thead>
+                            <tbody>
+                                {this.state.categories.map((category) => (
+                                    <tr key={category.id}>
+                                        <td>{category.name}</td>
+                                        <td>{category?.parentCategory?.name}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+                    )}
                 </div>
 
                 {/* Modal Create */}

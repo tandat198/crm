@@ -17,6 +17,7 @@ class HomePage extends React.Component {
         gender: "Giới tính",
         email: "",
         tele: "",
+        search: "",
         modelCreateOpening: false,
         modalCustomerListOpening: false,
         isLoading: false,
@@ -25,6 +26,9 @@ class HomePage extends React.Component {
             gender: "",
         },
         customers: [],
+    };
+    handleSearch = (e) => {
+        this.setState({ search: e.target.value });
     };
 
     handleName = (e) => {
@@ -132,7 +136,7 @@ class HomePage extends React.Component {
                             </DropdownButton>
                         </div>
                         <InputGroup className='w-25'>
-                            <FormControl placeholder='Tìm kiếm khách hàng theo tên' />
+                            <FormControl placeholder='Tìm kiếm khách hàng theo tên' onChange={this.handleSearch} />
                         </InputGroup>
                     </div>
                     <hr />
@@ -150,15 +154,17 @@ class HomePage extends React.Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {this.state.customers.map((customer, index) => (
-                                    <tr key={customer.id}>
-                                        <td>{index + 1} </td>
-                                        <td>{customer.name}</td>
-                                        <td>{customer.email}</td>
-                                        <td>{customer.phoneNumber}</td>
-                                        <td>{customer.gender}</td>
-                                    </tr>
-                                ))}
+                                {this.state.customers
+                                    .filter((customer) => customer.name.includes(this.state.search))
+                                    .map((customer, index) => (
+                                        <tr key={customer.id}>
+                                            <td>{index + 1} </td>
+                                            <td>{customer.name}</td>
+                                            <td>{customer.email}</td>
+                                            <td>{customer.phoneNumber}</td>
+                                            <td>{customer.gender}</td>
+                                        </tr>
+                                    ))}
                             </tbody>
                         </Table>
                     )}
@@ -172,8 +178,15 @@ class HomePage extends React.Component {
 
                     <Modal.Body>
                         <Form.Group>
-                            <Form.Control className='mb-1' type='text' placeholder='Họ tên' onChange={this.handleName} />
-                            {this.state.errors.name.length > 0 && <span className='text-danger ml-3'>Vui lòng nhập họ tên</span>}
+                            <Form.Control
+                                className='mb-1'
+                                type='text'
+                                placeholder='Họ tên'
+                                onChange={this.handleName}
+                            />
+                            {this.state.errors.name.length > 0 && (
+                                <span className='text-danger ml-3'>Vui lòng nhập họ tên</span>
+                            )}
                         </Form.Group>
                         <Form.Group>
                             <Form.Control as='select' placeholder='Giới tính' onChange={this.handleGender}>
@@ -181,7 +194,9 @@ class HomePage extends React.Component {
                                 <option>Nam</option>
                                 <option>Nữ</option>
                             </Form.Control>
-                            {this.state.errors.gender.length > 0 && <span className='text-danger ml-3'>Vui lòng chọn giới tính</span>}
+                            {this.state.errors.gender.length > 0 && (
+                                <span className='text-danger ml-3'>Vui lòng chọn giới tính</span>
+                            )}
                         </Form.Group>
                         <Form.Group>
                             <Form.Control type='email' placeholder='Email' onChange={this.handleEmail} />
