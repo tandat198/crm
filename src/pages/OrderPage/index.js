@@ -21,7 +21,7 @@ function OrderPage(props) {
 
     useEffect(() => {
         getOrders();
-    }, []);
+    }, [orders.length]);
 
     return (
         <Fragment>

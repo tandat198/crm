@@ -19,6 +19,8 @@ class ProductPage extends React.Component {
         productName: "",
         category: "Danh mục",
         isLoading: false,
+        thumbnail: "",
+        fullPic: "",
         number: "",
         price: "",
         errors: {},
@@ -49,6 +51,12 @@ class ProductPage extends React.Component {
     handlePrice = (e) => {
         this.setState({ price: e.target.value });
     };
+    handleThumbnail = (e) => {
+        this.setState({ thumbnail: e.target.value });
+    };
+    handleFullPic = (e) => {
+        this.setState({ fullPic: e.target.value });
+    };
     createProduct = async () => {
         const errors = {};
         if (this.state.productName.length === 0) {
@@ -64,6 +72,8 @@ class ProductPage extends React.Component {
                 category: this.state.category,
                 remainingQuantity: parseInt(this.state.number),
                 price: parseInt(this.state.price),
+                thumbnailUrl: this.state.thumbnail,
+                imageUrl: this.state.fullPic,
             };
             const res = await axios({
                 method: "POST",
@@ -252,10 +262,14 @@ class ProductPage extends React.Component {
                             <Form.Control type='number' placeholder='Số lượng tồn kho' onChange={this.handleNumber} />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Control type='text' placeholder='URL hình thumbnail' />
+                            <Form.Control
+                                type='text'
+                                placeholder='URL hình thumbnail'
+                                onChange={this.handleThumbnail}
+                            />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Control type='text' placeholder='URL hình full' />
+                            <Form.Control type='text' placeholder='URL hình full' onChange={this.handleFullPic} />
                         </Form.Group>
                         <Form.Group>
                             <Form.Control type='number' placeholder='RAM' />
