@@ -172,15 +172,8 @@ class ProductPage extends React.Component {
 
                     <Modal.Body>
                         <Form.Group>
-                            <Form.Control
-                                className='mb-1'
-                                type='text'
-                                placeholder='Tên sản phẩm'
-                                onChange={this.handleProductName}
-                            />
-                            {this.state.errors.name ? (
-                                <span className='text-danger ml-3'>Vui lòng nhập tên sản phẩm</span>
-                            ) : null}
+                            <Form.Control className='mb-1' type='text' placeholder='Tên sản phẩm' onChange={this.handleProductName} />
+                            {this.state.errors.name ? <span className='text-danger ml-3'>Vui lòng nhập tên sản phẩm</span> : null}
                         </Form.Group>
                         <Form.Group>
                             <Form.Control as='select' placeholder='Danh mục' onChange={this.handleCategory}>
@@ -191,9 +184,7 @@ class ProductPage extends React.Component {
                                     </option>
                                 ))}
                             </Form.Control>
-                            {this.state.errors.category ? (
-                                <span className='text-danger ml-3'>Vui lòng chọn danh mục</span>
-                            ) : null}
+                            {this.state.errors.category ? <span className='text-danger ml-3'>Vui lòng chọn danh mục</span> : null}
                         </Form.Group>
                         <Form.Group>
                             <Form.Control type='number' placeholder='Giá sản phẩm' onChange={this.handlePrice} />
@@ -237,6 +228,7 @@ class ProductPage extends React.Component {
                     <Modal.Header closeButton>
                         <Modal.Title>Cập nhật sản phẩm</Modal.Title>
                     </Modal.Header>
+
                     <Modal.Body>
                         <Alert variant='success'>Đã cập nhật thành công</Alert>
                         <Form.Group>
@@ -275,6 +267,7 @@ class ProductPage extends React.Component {
                             <Form.Control type='text' placeholder='Hệ điều hành' />
                         </Form.Group>
                     </Modal.Body>
+
                     <Modal.Footer>
                         <Button variant='secondary'>Đóng</Button>
                         <Button variant='primary'>Cập nhật</Button>
