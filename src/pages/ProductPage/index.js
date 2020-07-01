@@ -15,6 +15,7 @@ class ProductPage extends React.Component {
     state = {
         modalCreateProductOpening: false,
         modalDeleteProductOpening: false,
+        sortTitle: "Sắp xếp theo",
         productName: "",
         category: "Danh mục",
         isLoading: false,
@@ -104,10 +105,42 @@ class ProductPage extends React.Component {
             });
         }
     };
+    sortProduct = (sortType) => {
+        switch (sortType) {
+            case "ASC_PRICE":
+                const sortAscPrice = this.state.products.sort((a, b) => a.price - b.price);
+                this.setState({ products: sortAscPrice, sortTitle: "Giá tăng dần" });
+                break;
+            case "DESC_PRICE":
+                const sortDescPrice = this.state.products.sort((a, b) => b.price - a.price);
+                this.setState({ products: sortDescPrice, sortTitle: "Giá giảm dần" });
+                break;
+            case "ASC_NAME":
+                const sortedAscName = this.state.products.sort((a, b) => a.name.localeCompare(b.name));
+                console.log(sortedAscName);
+                this.setState({ products: sortedAscName });
+                break;
+            case "DESC_NAME":
+                const sortedDescName = this.state.products.sort((a, b) => b.name.localeCompare(a.name));
+                this.setState({ products: sortedDescName });
+                break;
+            case "ASC_STORE":
+                const sortedAscStore = this.state.products.sort((a, b) => a.remainingQuantity - b.remainingQuantity);
+                this.setState({ products: sortedAscStore });
+                break;
+
+            default:
+                break;
+        }
+    };
+    resetText = () => {
+        this.setState({ productName: "", category: "Danh mục" });
+    };
     componentDidMount() {
         this.getProduct();
         this.getCategory();
     }
+
     render() {
         return (
             <Fragment>
@@ -120,15 +153,25 @@ class ProductPage extends React.Component {
                             <Button className='mr-2' variant='danger' onClick={this.toggleModalDelete}>
                                 Xóa sản phẩm
                             </Button>
-                            <DropdownButton variant='secondary' title='Sắp xếp theo'>
-                                <Dropdown.Item>Giá tăng dần</Dropdown.Item>
-                                <Dropdown.Item>Giá giảm dần</Dropdown.Item>
-                                <Dropdown.Item>Số lượng tồn kho tăng dần</Dropdown.Item>
-                                <Dropdown.Item>Số lượng tồn kho giảm dần</Dropdown.Item>
-                                <Dropdown.Item>Tên A-Z</Dropdown.Item>
-                                <Dropdown.Item>Tên Z-A</Dropdown.Item>
-                                <Dropdown.Item>Danh mục A-Z</Dropdown.Item>
-                                <Dropdown.Item>Danh mục Z-A</Dropdown.Item>
+                            <DropdownButton variant='secondary' title={this.state.sortTitle}>
+                                <Dropdown.Item onClick={() => this.sortProduct("ASC_PRICE")}>
+                                    Giá tăng dần
+                                </Dropdown.Item>
+                                <Dropdown.Item onClick={() => this.sortProduct("DESC_PRICE")}>
+                                    Giá giảm dần
+                                </Dropdown.Item>
+                                <Dropdown.Item onClick={() => this.sortProduct("ASC_STORE")}>
+                                    Số lượng tồn kho tăng dần
+                                </Dropdown.Item>
+                                <Dropdown.Item onClick={() => this.sortProduct("DESC_STORE")}>
+                                    Số lượng tồn kho giảm dần
+                                </Dropdown.Item>
+                                <Dropdown.Item onClick={() => this.sortProduct("ASC_NAME")}>Tên A-Z</Dropdown.Item>
+                                <Dropdown.Item onClick={() => this.sortProduct("DESC_NAME")}>Tên Z-A</Dropdown.Item>
+                                <Dropdown.Item onClick={() => this.sortProduct("ASC_ITEM")}>Danh mục A-Z</Dropdown.Item>
+                                <Dropdown.Item onClick={() => this.sortProduct("DESC_ITEM")}>
+                                    Danh mục Z-A
+                                </Dropdown.Item>
                             </DropdownButton>
                         </div>
                         <InputGroup className='w-25'>
@@ -176,6 +219,7 @@ class ProductPage extends React.Component {
                                 className='mb-1'
                                 type='text'
                                 placeholder='Tên sản phẩm'
+                                value={this.state.productName}
                                 onChange={this.handleProductName}
                             />
                             {this.state.errors.name ? (
@@ -183,7 +227,12 @@ class ProductPage extends React.Component {
                             ) : null}
                         </Form.Group>
                         <Form.Group>
-                            <Form.Control as='select' placeholder='Danh mục' onChange={this.handleCategory}>
+                            <Form.Control
+                                as='select'
+                                placeholder='Danh mục'
+                                value={this.state.category}
+                                onChange={this.handleCategory}
+                            >
                                 <option>Danh mục</option>
                                 {this.state.categories.map((category) => (
                                     <option value={category.id} key={category.id}>
@@ -205,6 +254,9 @@ class ProductPage extends React.Component {
                     </Modal.Body>
 
                     <Modal.Footer>
+                        <Button variant='danger' onClick={this.resetText}>
+                            Reset
+                        </Button>
                         <Button variant='secondary' onClick={this.toggleModelCreate}>
                             Đóng
                         </Button>

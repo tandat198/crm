@@ -8,20 +8,18 @@ import ProductPage from "./pages/ProductPage";
 import CategoryPage from "./pages/CategoryPage";
 import OrderPage from "./pages/OrderPage";
 
-class App extends React.Component {
-    render() {
-        return (
-            <BrowserRouter>
-                <Header />
-                <Switch>
-                    <Route exact path='/' component={HomePage} />
-                    <Route exact path='/products' component={ProductPage} />
-                    <Route exact path='/categories' component={CategoryPage} />
-                    <Route exact path='/orders' component={OrderPage} />
-                </Switch>
-            </BrowserRouter>
-        );
-    }
-}
+const App = (props) => {
+    return (
+        <BrowserRouter>
+            <Header />
+            <Switch>
+                <Route exact path='/' component={HomePage} />
+                <Route exact path='/products' component={ProductPage} />
+                <Route exact path='/categories' component={CategoryPage} />
+                <Route exact path='/orders' component={OrderPage} />
+            </Switch>
+        </BrowserRouter>
+    );
+};
 
 export default App;

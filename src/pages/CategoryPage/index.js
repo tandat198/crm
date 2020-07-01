@@ -17,9 +17,14 @@ class CategoryPage extends React.Component {
         modalCreateCategoryOpening: false,
         categoryName: "",
         isLoading: false,
+        searchName: "",
         parentCategory: "Danh mục cha",
         errors: {},
         categories: [],
+    };
+
+    handleSearchName = (e) => {
+        this.setState({ searchName: e.target.value });
     };
 
     toggleDeleteCategory = () => {
@@ -103,7 +108,7 @@ class CategoryPage extends React.Component {
                             </DropdownButton>
                         </div>
                         <InputGroup className='w-25'>
-                            <FormControl placeholder='Tìm kiếm danh mục theo tên' />
+                            <FormControl placeholder='Tìm kiếm danh mục theo tên' onChange={this.handleSearchName} />
                         </InputGroup>
                     </div>
                     <hr />
@@ -118,12 +123,16 @@ class CategoryPage extends React.Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {this.state.categories.map((category) => (
-                                    <tr key={category.id}>
-                                        <td>{category.name}</td>
-                                        <td>{category?.parentCategory?.name}</td>
-                                    </tr>
-                                ))}
+                                {this.state.categories
+                                    .filter((category) =>
+                                        category.name.toLowerCase().includes(this.state.searchName.toLowerCase())
+                                    )
+                                    .map((category) => (
+                                        <tr key={category.id}>
+                                            <td>{category.name}</td>
+                                            <td>{category?.parentCategory?.name}</td>
+                                        </tr>
+                                    ))}
                             </tbody>
                         </Table>
                     )}
@@ -137,8 +146,15 @@ class CategoryPage extends React.Component {
 
                     <Modal.Body>
                         <Form.Group>
-                            <Form.Control className='mb-1' type='text' placeholder='Tên danh mục' onChange={this.handleCategoryName} />
-                            {this.state.errors.categoryName ? <span className='text-danger ml-3'>Vui lòng nhập tên danh mục</span> : null}
+                            <Form.Control
+                                className='mb-1'
+                                type='text'
+                                placeholder='Tên danh mục'
+                                onChange={this.handleCategoryName}
+                            />
+                            {this.state.errors.categoryName ? (
+                                <span className='text-danger ml-3'>Vui lòng nhập tên danh mục</span>
+                            ) : null}
                         </Form.Group>
                         <Form.Group>
                             <Form.Control as='select' placeholder='Danh mục cha' onChange={this.handleParentCategory}>
@@ -171,8 +187,15 @@ class CategoryPage extends React.Component {
                     <Modal.Body>
                         <Alert variant='success'>Đã cập nhật thành công</Alert>
                         <Form.Group>
-                            <Form.Control className='mb-1' type='text' placeholder='Tên danh mục' onChange={this.handleCategoryName} />
-                            {this.state.errors.categoryName ? <span className='text-danger ml-3'>Vui lòng nhập tên danh mục</span> : null}
+                            <Form.Control
+                                className='mb-1'
+                                type='text'
+                                placeholder='Tên danh mục'
+                                onChange={this.handleCategoryName}
+                            />
+                            {this.state.errors.categoryName ? (
+                                <span className='text-danger ml-3'>Vui lòng nhập tên danh mục</span>
+                            ) : null}
                         </Form.Group>
                         <Form.Group>
                             <Form.Control as='select' placeholder='Danh mục cha' onChange={this.handleParentCategory}>
