@@ -85,6 +85,29 @@ class CategoryPage extends React.Component {
         this.setState({ isLoading: false });
         this.setState({ categories: res.data });
     };
+    sortCategory = (sortType) => {
+        let sortedCategories;
+        switch (sortType) {
+            case "ASC_NAME":
+                sortedCategories = this.state.categories.sort((a, b) => a.name.localeCompare(b.name));
+                this.setState({ categories: sortedCategories });
+                break;
+            case "DESC_NAME":
+                sortedCategories = this.state.categories.sort((a, b) => b.name.localeCompare(a.name));
+                this.setState({ categories: sortedCategories });
+                break;
+            case "ASC_MOTHER_ITEM":
+                sortedCategories = this.state.categories.sort((a, b) => a.id.localeCompare(b.id));
+                this.setState({ categories: sortedCategories });
+                break;
+            case "DESC_MOTHER_ITEM":
+                sortedCategories = this.state.categories.sort((a, b) => b.id.localeCompare(a.id));
+                this.setState({ categories: sortedCategories });
+                break;
+            default:
+                break;
+        }
+    };
     componentDidMount() {
         this.getCategories();
     }
@@ -101,10 +124,14 @@ class CategoryPage extends React.Component {
                                 Xóa danh mục
                             </Button>
                             <DropdownButton variant='secondary' title='Sắp xếp theo'>
-                                <Dropdown.Item>Tên A-Z</Dropdown.Item>
-                                <Dropdown.Item>Tên Z-A</Dropdown.Item>
-                                <Dropdown.Item>Tên danh mục cha A-Z</Dropdown.Item>
-                                <Dropdown.Item>Tên danh mục cha Z-A</Dropdown.Item>
+                                <Dropdown.Item onClick={() => this.sortCategory("ASC_NAME")}>Tên A-Z</Dropdown.Item>
+                                <Dropdown.Item onClick={() => this.sortCategory("DESC_NAME")}>Tên Z-A</Dropdown.Item>
+                                <Dropdown.Item onClick={() => this.sortCategory("ASC_MOTHER_ITEM")}>
+                                    Tên danh mục cha A-Z
+                                </Dropdown.Item>
+                                <Dropdown.Item onClick={() => this.sortCategory("DESC_MOTHER_ITEM")}>
+                                    Tên danh mục cha Z-A
+                                </Dropdown.Item>
                             </DropdownButton>
                         </div>
                         <InputGroup className='w-25'>

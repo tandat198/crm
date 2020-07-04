@@ -18,13 +18,11 @@ class HomePage extends React.Component {
         email: "",
         tele: "",
         search: "",
+        sortTitle: "Sắp xếp theo",
         modelCreateOpening: false,
         modalCustomerListOpening: false,
         isLoading: false,
-        errors: {
-            name: "",
-            gender: "",
-        },
+        errors: {},
         customers: [],
     };
     handleSearch = (e) => {
@@ -46,14 +44,15 @@ class HomePage extends React.Component {
     };
     createCustomer = async () => {
         const errors = {};
-        if (this.state.name.length === 0) {
+        const { name, gender, email, tele } = this.state;
+
+        if (name.length === 0) {
             errors.name = "name is required";
-            errors.gender = "";
         }
-        if (this.state.gender === "Giới tính") {
+        if (gender === "Giới tính") {
             errors.gender = "gender is required";
-            errors.name = "";
         }
+        this.setState({ errors });
 
         if (Object.keys(errors).length === 0) {
             let gender;
@@ -66,20 +65,30 @@ class HomePage extends React.Component {
                     break;
             }
             const newCustomer = {
-                name: this.state.name,
+                name: name,
                 gender,
-                email: this.state.email,
-                phoneNumber: this.state.tele,
+                email: email ? email : undefined,
+                phoneNumber: tele ? tele : undefined,
             };
 
-            const res = await axios({
-                method: "POST",
-                url: "https://crm-dnt.herokuapp.com/api/customers",
-                data: newCustomer,
-            });
-            this.setState({ customers: this.state.customers.concat([res.data]), modelCreateOpening: false });
-        } else {
-            this.setState({ errors });
+            try {
+                const res = await axios({
+                    method: "POST",
+                    url: "https://crm-dnt.herokuapp.com/api/customers",
+                    data: newCustomer,
+                });
+                console.log(res);
+                this.setState({ customers: this.state.customers.concat([res.data]), modelCreateOpening: false });
+            } catch (error) {
+                const { phoneNumber: phoneNumberError, email: emailError } = error.response.data;
+                if (emailError) {
+                    errors.email = emailError;
+                }
+                if (phoneNumberError) {
+                    errors.phoneNumber = phoneNumberError;
+                }
+                this.setState({ errors });
+            }
         }
     };
     openFormCreate = () => {
@@ -114,6 +123,23 @@ class HomePage extends React.Component {
         this.setState({ customers: res.data, isLoading: false });
     };
 
+    sortCustomer = (sortType) => {
+        let sortedCustomers;
+
+        switch (sortType) {
+            case "ASC_NAME":
+                sortedCustomers = this.state.customers.sort((a, b) => a.name.localeCompare(b.name));
+                this.setState({ customers: sortedCustomers, sortTitle: "tên A-Z" });
+                break;
+
+            case "DESC_NAME":
+                sortedCustomers = this.state.customers.sort((a, b) => b.name.localeCompare(a.name));
+                this.setState({ customers: sortedCustomers, sortTitle: "tên Z-A" });
+                break;
+            default:
+                break;
+        }
+    };
     componentDidMount() {
         this.getCustomers();
     }
@@ -130,9 +156,9 @@ class HomePage extends React.Component {
                             <Button className='mr-2' variant='danger' onClick={this.openCustomerList}>
                                 Xóa khách hàng
                             </Button>
-                            <DropdownButton variant='secondary' title='Sắp xếp theo'>
-                                <Dropdown.Item>Tên A-Z</Dropdown.Item>
-                                <Dropdown.Item>Tên Z-A</Dropdown.Item>
+                            <DropdownButton variant='secondary' title={this.state.sortTitle}>
+                                <Dropdown.Item onClick={() => this.sortCustomer("ASC_NAME")}>Tên A-Z</Dropdown.Item>
+                                <Dropdown.Item onClick={() => this.sortCustomer("DESC_NAME")}>Tên Z-A</Dropdown.Item>
                             </DropdownButton>
                         </div>
                         <InputGroup className='w-25'>
@@ -155,7 +181,9 @@ class HomePage extends React.Component {
                             </thead>
                             <tbody>
                                 {this.state.customers
-                                    .filter((customer) => customer.name.includes(this.state.search))
+                                    .filter((customer) =>
+                                        customer.name.toLowerCase().includes(this.state.search.toLowerCase())
+                                    )
                                     .map((customer, index) => (
                                         <tr key={customer.id}>
                                             <td>{index + 1} </td>
@@ -184,9 +212,7 @@ class HomePage extends React.Component {
                                 placeholder='Họ tên'
                                 onChange={this.handleName}
                             />
-                            {this.state.errors.name.length > 0 && (
-                                <span className='text-danger ml-3'>Vui lòng nhập họ tên</span>
-                            )}
+                            {this.state.errors.name && <span className='text-danger ml-3'>Vui lòng nhập họ tên</span>}
                         </Form.Group>
                         <Form.Group>
                             <Form.Control as='select' placeholder='Giới tính' onChange={this.handleGender}>
@@ -194,15 +220,21 @@ class HomePage extends React.Component {
                                 <option>Nam</option>
                                 <option>Nữ</option>
                             </Form.Control>
-                            {this.state.errors.gender.length > 0 && (
+                            {this.state.errors.gender && (
                                 <span className='text-danger ml-3'>Vui lòng chọn giới tính</span>
                             )}
                         </Form.Group>
                         <Form.Group>
                             <Form.Control type='email' placeholder='Email' onChange={this.handleEmail} />
+                            {this.state.errors.email ? (
+                                <span className='text-danger ml-3'>Email không hợp lệ</span>
+                            ) : null}
                         </Form.Group>
                         <Form.Group>
                             <Form.Control type='tel' placeholder='Số điện thoại' onChange={this.HandleTele} />
+                            {this.state.errors.phoneNumber ? (
+                                <span className='text-danger ml-3'>SDT không hợp lệ</span>
+                            ) : null}
                         </Form.Group>
                     </Modal.Body>
 
@@ -234,7 +266,6 @@ class HomePage extends React.Component {
                                 <option>Nam</option>
                                 <option>Nữ</option>
                             </Form.Control>
-
                             <span className='text-danger ml-3'>Vui lòng chọn giới tính</span>
                         </Form.Group>
                         <Form.Group>
